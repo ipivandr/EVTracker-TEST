@@ -2,14 +2,14 @@
 
 <style>
     html {
-                touch-action: none;}
-
-            body, .wrapper, .app {
-                touch-action: manipulation;}
-
-            html, body {
-                overflow: hidden;
-                height: 100%;}
+        touch-action: none;
+    }
+    body, .wrapper, .app {
+        touch-action: manipulation;
+    }
+    html, body {
+        overflow: hidden;
+        height: 100%;}
     body {
         background: #000;
         color: #fff;
@@ -115,9 +115,9 @@
 window.onload = () => {
     document.getElementById("apikey"). value = localStorage.getItem("apikey") || "";
     document.getElementById("token"). value = localStorage.getItem("token") || "";
-    document.getElementById("battKWT"). value = localStorage.getItem("battKWT") || "68.8";
-    document.getElementById("avgKWT100"). value = localStorage.getItem("avgKWT100") || "18.0";
-    document.getElementById("KWTpower"). value = localStorage.getItem("KWTpower") || "30.0";
+    document.getElementById("battKWT"). value = localStorage.getItem("battKWT") || "";
+    document.getElementById("avgKWT100"). value = localStorage.getItem("avgKWT100") || "";
+    document.getElementById("KWTpower"). value = localStorage.getItem("KWTpower") || "";
 }
 
 document.getElementById("saveBtn").onclick = () => {
@@ -125,13 +125,13 @@ document.getElementById("saveBtn").onclick = () => {
     localStorage.setItem("token", document.getElementById("token").value);
     localStorage.setItem("battKWT", document.getElementById("battKWT").value);
     localStorage.setItem("avgKWT100", document.getElementById("avgKWT100").value);
-    localStorage.setItem("KWTpower", document.getElementById("KWTpoer").value);
+    localStorage.setItem("KWTpower", document.getElementById("KWTpower").value);
 
     alert("Настройки сохранены");
 
 };
 
 document.getElementById("backBtn").onclick = () =>{
-window.location.href = "index.thml";
+history.back();
 }
 </script>

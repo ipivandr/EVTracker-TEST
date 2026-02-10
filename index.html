@@ -3,7 +3,7 @@
     <head> 
         <meta charset="UTF-8">  
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
-        <title>EVTracker
+        <title>EVTracker</title> 
             <link rel="manifest" href="manifest.json">
             <meta name="apple-mobile-web-app-capable" content="yes">
             <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -15,7 +15,6 @@
                     navigator.serviceWorker.register("service-worker.js");
                 }
             </script>
-        </title> 
 
         <style> 
 
@@ -63,23 +62,6 @@
                 align-items: center; 
                 justify-content: space-between; } 
 
-            .settings-btn {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: #555;
-                color: white;
-                border: none;
-                padding: 8px 12px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 18px;
-                opacity: 0.8;
-                transition: 0.2s;}
-
-            .settings-btn:hover {
-                opacity: 1;}
-            
             .start-btn { 
                 width: 90%; 
                 padding: 18px; 
@@ -103,7 +85,7 @@
                 margin-top: 20px;}
 
             .status-btn {
-                width: 150px;
+                width: 100px;
                 height: 65px;
                 border-radius: 35px;
                 border: none;
@@ -229,12 +211,11 @@
 
         <div class="app"> 
 
-            <button id="settingsBtn" class="settings-btn">W</button>
-
             <button id="startBtn" class="start-btn start">START</button>
 
         <div class="status-row">
             <button id="chargeBtn" class="status-btn">⚡️</button>
+            <button id="settingsBtn" class="status-btn">⚙️</button>
             <button id="parkBtn" class="status-btn">P</button>
         </div>
 
@@ -255,21 +236,16 @@
         </div>
     </div> 
 
-
 <script type="module"> 
 
 // Переменные
 
-            const apikey = localStorage.getItem("apikey") || "";
-            const token = localStorage.getItem("token") || "";
-            let battKWT = Number(localStorage.getItem("battKWT")) || 68.8;
-            let avgKWT100 = Number(localStorage.getItem("avgKWT100")) || 18.0;
-
-// =======  apikey = "APIKEY 5ebd3880-0d97-4e14-89f4-a4038152d27a"; === удалить потом
-// =======  const token = "b3fa5ded-367d-46e8-bab9-b60ae09356f2"; ===== удалить потом
-// =======  let battKWT = 38.8; ======================================= удалить потом
-// =======  let avgKWT100 = 18.0; ===================================== удалить потом
-            let energyKWT = 10;
+            const apikey = "APIKEY " + localStorage.getItem("apikey") || 0;
+            const token = localStorage.getItem("token") || 0;
+            let battKWT = Number(localStorage.getItem("battKWT")) || 0;
+            let avgKWT100 = Number(localStorage.getItem("avgKWT100")) || 0;
+            let KWTpower = Number(localStorage.getItem("KWTpower")) || 0;
+            let energyKWT = 34.4;
             let avgKWT1 = avgKWT100 / 100;
             let tracking = false; 
             let charged = false;
@@ -297,7 +273,6 @@
 
             function autoCharge() {
                 if (!charged) return;
-                let KWTpower = 30.0;
                 let KWTadded = KWTpower * (2 / 3600);
                 energyKWT = Math.min(battKWT, energyKWT + KWTadded);
             }
@@ -329,7 +304,7 @@
 // Кнопки
 
             document.getElementById("settingsBtn").onclick = () => {
-                window.location.href = "settings.html";
+                location.assign("settings.html");
             }
             
             document.getElementById("minusBTN").addEventListener("click", () => changeSOC(-1));
@@ -443,7 +418,31 @@
                 loader.style.display = "none";
             }
             }
-        
+
+// Обновление настроек
+
+            function reloadSettings() {
+                battKWT = Number(localStorage.getItem("battKWT")) || 0;
+                avgKWT100 = Number(localStorage.getItem("avgKWT100")) || 0;
+                KWTpower = Number(localStorage.getItem("KWTpower")) || 0;
+                avgKWT1 = avgKWT100 / 100;
+
+                updateUI();
+
+                if (tracking) {
+                    clearInterval(interval);
+                    interval = setInterval(() => {
+                        autoDischarge();
+                        autoCharge();
+                        sendTelemetry();
+                        updateUI();
+                    }, 2000);
+                }
+
+            }
+
+            reloadSettings();
+            window.addEventListener("focus", reloadSettings);
 
             updateStatusButtons();
             updateUI();
