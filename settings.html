@@ -1,0 +1,124 @@
+<style>
+    body {
+        background: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+    }
+    .settings-conteiner {
+        width: 90%;
+        max-width: 420px;
+        margin: 0 auto;
+        padding: 20px;
+        margin-top: 40px;
+        text-align: center;
+    }
+    .settings-conteiner h1 {
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+    .settings-block {
+        margin-bottom: 22px;
+        text-align: left;
+    }
+    .settings-block lable {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 18px;
+        opacity: 0.8;
+    }
+    .settings-block input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        background: #111;
+        color: #fff;
+        font-size: 16px;
+        outline: none;
+    }
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 10px;
+        background: #555;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #555;
+    }
+
+</style>
+
+<boby>
+
+    <div class="settings-conteiner">
+
+        <h2>Настройки</h2>
+
+        <div class="settings-block">
+            <label>API Key</label>
+            <input id="apikey">
+        </div>
+
+        <div class="settings-block">
+           <label>Token</label>
+           <input id="token">
+        </div>
+
+        <div class="settings-block">
+            <label>Обьём баттареи (кВт)</label>
+            <input id="battKWT" type="number">
+        </div>
+
+        <div class="settings-block">
+           <label>Расход на 100км (кВт)</label>
+           <input id="avgKWT100" type="number">
+        </div>
+
+        <div class="settings-block">
+            <label>Мощность зарядки (кВт)</label>
+            <input id="KWTpower" type="number">
+        </div>
+
+    <button id="saveBtn">Сохранить</button>
+    <button id="backBtn">Назад</button>
+
+    </div>
+</boby>
+
+<script>
+
+window.onload = () => {
+    document.getElementById("apikey"). value = localStorage.getItem("apikey") || "";
+    document.getElementById("token"). value = localStorage.getItem("token") || "";
+    document.getElementById("battKWT"). value = localStorage.getItem("battKWT") || "68.8";
+    document.getElementById("avgKWT100"). value = localStorage.getItem("avgKWT100") || "18.0";
+    document.getElementById("KWTpower"). value = localStorage.getItem("KWTpower") || "30.0";
+}
+
+document.getElementById("saveBtn").onclick = () => {
+    localStorage.setItem("apikey", document.getElementById("apikey").value);
+    localStorage.setItem("token", document.getElementById("token").value);
+    localStorage.setItem("battKWT", document.getElementById("battKWT").value);
+    localStorage.setItem("avgKWT100", document.getElementById("avgKWT100").value);
+    localStorage.setItem("KWTpower", document.getElementById("KWTpoer").value);
+
+    alert("Настройки сохранены");
+
+};
+
+document.getElementById("backBtn").onclick = () =>{
+window.location.href = "index.thml";
+}
+</script>
